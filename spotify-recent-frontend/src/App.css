@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:300");
+@import url("https://cdn.galenguyer.com/fontawesome/css/solid.min.css");
+
+body {
+  text-align: center;
+  background-color: #2e3141;
+  color: #f5f5f5;
+  font-family: Raleway, Helvetica, sans-serif;
+}
+
+.songlist {
+  max-width: 640px;
+  margin: auto;
+  padding-bottom: 32px;
+  display: table;
+}
+
+#currentSong {
+  font-size: 1.3rem;
+  font-style: bold;
+  margin-bottom: 16px;
+}
+#currentSong>hr {
+    max-width: 85%;
+    background-color:white;
+    margin: 12px auto;
+}
+#currentSong::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f04b";
+  margin-right: 12px;
+  font-size: 1.2rem;
+}

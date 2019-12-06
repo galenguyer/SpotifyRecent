@@ -1,5 +1,7 @@
-[Bb]in
-[Oo]bj
-
+[Bb]in/
+[Oo]bj/
+build/
 config.json
-.vs
+.vs/
+
+node_modules/

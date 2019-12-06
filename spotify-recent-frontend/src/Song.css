@@ -1,0 +1,19 @@
+.song {
+    display: inline-block;
+    padding: 0px;
+    margin: 0px 8px 0px 8px;
+    font-size: 1.05rem;
+    color: #f5f5f5;
+}
+
+.artists {
+    font-style: italic;
+    color: #bdbdbe;
+}
+
+hr {
+    max-width: 75%;
+    background-color:white;
+    border: solid 1.2px;
+    margin: 12px auto;
+}
