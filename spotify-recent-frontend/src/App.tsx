@@ -36,8 +36,8 @@ componentDidMount() {
           <h1>Recent Songs</h1>
         </header>
         {
-            this.state.history !== undefined ? 
-              this.state.history.currentTrack !== undefined ?
+            this.state.history != undefined ? 
+              this.state.history.currentTrack != undefined ?
                 <Song
                     id="currentSong"
                     name={this.state.history.currentTrack.name} 
