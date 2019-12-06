@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { History } from './History'
 import Song from './Song';
+import SongList from './SongList';
 
 interface IProps {
 }
@@ -35,19 +36,15 @@ componentDidMount() {
           <h1>Recent Songs</h1>
         </header>
         {
-            this.state.history != null ? 
-              this.state.history.currentTrack != null ?
+            this.state.history !== undefined ? 
+              this.state.history.currentTrack !== undefined ?
                 <Song
                     id="currentSong"
                     name={this.state.history.currentTrack.name} 
                     artists={this.state.history.currentTrack.artists} />
             : undefined : undefined
         }
-        <div className="songlist">
-        {this.state.history != null ? this.state.history.tracks.map((track)=> {
-          return (<Song name={track.name} artists={track.artists}/>)
-        }): undefined}
-        </div>
+        <SongList tracks={this.state.history !== undefined ? this.state.history.tracks : undefined}/>
       </div>
     );
   }
