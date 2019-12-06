@@ -37,7 +37,7 @@ namespace SpotifyRecentApi.Controllers
                 client.Headers.Clear();
                 client.Headers[HttpRequestHeader.Authorization] = $"Bearer {config.AccessToken}";
 
-                var recentstr = client.DownloadString("https://api.spotify.com/v1/me/player/recently-played");
+                var recentstr = client.DownloadString("https://api.spotify.com/v1/me/player/recently-played?limit=50");
                 var recentType = new
                 {
                     items = new[] {
@@ -64,7 +64,8 @@ namespace SpotifyRecentApi.Controllers
 
                 foreach (var track in recent.items)
                 {
-                    history.Tracks.Add(new Track { Name = track.track.name, Artists = track.track.artists.Select(a => a.name).ToList() });
+                    if(!history.Tracks.Any() || !history.Tracks.Last().Name.Equals(track.track.name) || !history.Tracks.Last().Artists.Contains(track.track.artists[0].name))
+                        history.Tracks.Add(new Track { Name = track.track.name, Artists = track.track.artists.Select(a => a.name).ToList() });
                 }
 
                 var currstr = client.DownloadString("https://api.spotify.com/v1/me/player/currently-playing");
@@ -90,6 +91,8 @@ namespace SpotifyRecentApi.Controllers
                 }
                 else
                     history.CurrentTrack = null;
+
+                history.Tracks = history.Tracks.Take(25).ToList();
 
                 Program.SetCache(history);
                 return new JsonResult(history);
