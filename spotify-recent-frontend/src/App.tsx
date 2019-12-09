@@ -39,7 +39,7 @@ componentDidMount() {
             this.state.history != undefined ? 
               this.state.history.currentTrack != undefined ?
                 <Song
-                    id="currentSong"
+                    id={"currentSong" + (this.state.history.currentTrack.isPlaying ? "isPlaying" : "isPaused")}
                     name={this.state.history.currentTrack.name} 
                     artists={this.state.history.currentTrack.artists} />
             : undefined : undefined

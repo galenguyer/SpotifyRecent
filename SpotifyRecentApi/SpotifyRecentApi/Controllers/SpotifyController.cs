@@ -68,10 +68,10 @@ namespace SpotifyRecentApi.Controllers
                         history.Tracks.Add(new Track { Name = track.track.name, Artists = track.track.artists.Select(a => a.name).ToList() });
                 }
 
-                var currstr = client.DownloadString("https://api.spotify.com/v1/me/player/currently-playing");
+                var firstcurrstr = client.DownloadString("https://api.spotify.com/v1/me/player/currently-playing");
                 var currType = new
                 {
-                    is_playing = false,
+                    progress_ms = (ulong)0,
                     item = new
                     {
                         artists = new[]
@@ -84,15 +84,22 @@ namespace SpotifyRecentApi.Controllers
                         name = "string"
                     }
                 };
-                var curr = JsonConvert.DeserializeAnonymousType(currstr, currType);
-                if (curr != null && curr.item != null)
+                var firstcurr = JsonConvert.DeserializeAnonymousType(firstcurrstr, currType);
+                System.Threading.Thread.Sleep(5);
+                var secondcurrstr = client.DownloadString("https://api.spotify.com/v1/me/player/currently-playing");
+                var secondcurr = JsonConvert.DeserializeAnonymousType(secondcurrstr, currType);
+                if (firstcurr != null && firstcurr.item != null && secondcurr != null && secondcurr.item != null)
                 {
-                    history.CurrentTrack = new Track { Name = curr.item.name, Artists = curr.item.artists.Select(a => a.name).ToList() };
+                    history.CurrentTrack = new Track {
+                        Name = secondcurr.item.name,
+                        Artists = secondcurr.item.artists.Select(a => a.name).ToList(),
+                        IsPlaying = (firstcurr.progress_ms != secondcurr.progress_ms)
+                    };
                 }
                 else
                     history.CurrentTrack = null;
 
-                history.Tracks = history.Tracks.Take(25).ToList();
+                history.Tracks = history.Tracks.Take(20).ToList();
 
                 Program.SetCache(history);
                 return new JsonResult(history);

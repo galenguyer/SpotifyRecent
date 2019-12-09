@@ -1,6 +1,7 @@
 export interface Track {
     name: string,
     artists: string[],
+    isPlaying: boolean,
 }
 
 export interface History {

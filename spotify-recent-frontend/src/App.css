@@ -15,7 +15,12 @@ body {
   display: table;
 }
 
-#currentSong {
+#currentSongisPlaying {
+  font-size: 1.3rem;
+  font-style: bold;
+  margin-bottom: 16px;
+}
+#currentSongisPaused {
   font-size: 1.3rem;
   font-style: bold;
   margin-bottom: 16px;
@@ -25,9 +30,14 @@ body {
     background-color:white;
     margin: 12px auto;
 }
-#currentSong::before {
+#currentSongisPlaying::before {
   font-family: "Font Awesome 5 Free";
   content: "\f04b";
   margin-right: 12px;
-  font-size: 1.2rem;
+}
+#currentSongisPaused::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f04c";
+  margin-right: 12px;
+  font-size: inherit;
 }
