@@ -41,7 +41,8 @@ componentDidMount() {
                 <Song
                     id={"currentSong" + (this.state.history.currentTrack.isPlaying ? "isPlaying" : "isPaused")}
                     name={this.state.history.currentTrack.name} 
-                    artists={this.state.history.currentTrack.artists} />
+                    artists={this.state.history.currentTrack.artists}
+                    link={this.state.history.currentTrack.ytSongLink} />
             : undefined : undefined
         }
         <SongList tracks={this.state.history !== undefined ? this.state.history.tracks : undefined}/>

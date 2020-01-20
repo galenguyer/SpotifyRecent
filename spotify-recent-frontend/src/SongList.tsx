@@ -18,7 +18,7 @@ const SongList: React.FunctionComponent<SongListProps> = (props) => {
             <div className="songlist">
             {
                 tracks.map((track)=> {
-                    return (<Song name={track.name} artists={track.artists}/>)
+                    return (<Song name={track.name} artists={track.artists} link={track.ytSongLink}/>)
                 })
             }
             </div>

@@ -4,11 +4,12 @@ import './Song.css'
 type SongProps = {
     name: string,
     artists: string[],
-    id?: string
+    link: string,
+    id?: string,
 }
 
 const Song: React.FunctionComponent<SongProps> = (props) => {
-    const {name, artists, id} = props;
+    const {name, artists, link, id} = props;
     var aggregatedArtists = "";
     if(artists.length === 1){
         aggregatedArtists = artists[0];
@@ -23,7 +24,7 @@ const Song: React.FunctionComponent<SongProps> = (props) => {
     return (
         <>
             <div className="song" id={id}>
-                <span className="title">{name}</span> <span className="artists">- {aggregatedArtists}</span>
+                <a href={link}><span className="title">{name}</span> <span className="artists">- {aggregatedArtists}</span></a>
                 <hr />
             </div>
             <br style={{clear: 'both'}} />
