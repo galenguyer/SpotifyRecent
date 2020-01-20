@@ -64,8 +64,13 @@ namespace SpotifyRecentApi.Controllers
 
                 foreach (var track in recent.items)
                 {
-                    if(!history.Tracks.Any() || !history.Tracks.Last().Name.Equals(track.track.name) || !history.Tracks.Last().Artists.Contains(track.track.artists[0].name))
-                        history.Tracks.Add(new Track { Name = track.track.name, Artists = track.track.artists.Select(a => a.name).ToList() });
+                    if (!history.Tracks.Any() || !history.Tracks.Last().Name.Equals(track.track.name) || !history.Tracks.Last().Artists.Contains(track.track.artists[0].name))
+                        history.Tracks.Add(new Track
+                        {
+                            Name = track.track.name,
+                            Artists = track.track.artists.Select(a => a.name).ToList(),
+                            YTSongLink = YouTube.GetFirstSongLink($"{track.track.name} - {track.track.artists[0].name}")
+                        }) ;
                 }
 
                 var firstcurrstr = client.DownloadString("https://api.spotify.com/v1/me/player/currently-playing");
@@ -93,7 +98,8 @@ namespace SpotifyRecentApi.Controllers
                     history.CurrentTrack = new Track {
                         Name = secondcurr.item.name,
                         Artists = secondcurr.item.artists.Select(a => a.name).ToList(),
-                        IsPlaying = (firstcurr.progress_ms != secondcurr.progress_ms)
+                        IsPlaying = (firstcurr.progress_ms != secondcurr.progress_ms),
+                        YTSongLink = YouTube.GetFirstSongLink($"{secondcurr.item.name} - {secondcurr.item.artists[0].name}")
                     };
                 }
                 else

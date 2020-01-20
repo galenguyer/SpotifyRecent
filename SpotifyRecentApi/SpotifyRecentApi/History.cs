@@ -20,6 +20,9 @@ namespace SpotifyRecentApi
         public string Name { get; set; }
         public List<string> Artists { get; set; }
         public bool IsPlaying { get; set; }
+
+        public string YTSongLink { get; set; }
+
         public Track()
         {
             this.IsPlaying = false;
