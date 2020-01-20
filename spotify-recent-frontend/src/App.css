@@ -41,3 +41,11 @@ body {
   margin-right: 12px;
   font-size: inherit;
 }
+
+.note {
+  font-style: italic;
+  color: #bdbdbe;
+}
+.note>a{
+  color: #f5f5f5;
+}

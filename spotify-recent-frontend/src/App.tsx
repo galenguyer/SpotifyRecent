@@ -45,6 +45,7 @@ componentDidMount() {
             : undefined : undefined
         }
         <SongList tracks={this.state.history !== undefined ? this.state.history.tracks : undefined}/>
+        <p className="note">Read a bit about this project <a href="https://galenguyer.com/projects#spotify">here!</a></p>
       </div>
     );
   }
