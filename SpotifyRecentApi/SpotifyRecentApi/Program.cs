@@ -27,7 +27,7 @@ namespace SpotifyRecentApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                    .UseUrls("http://localhost:28473");
+                    .UseUrls("http://0.0.0.0:28473");
                 });
 
         public static void EnsureTokenUpToDate()
