@@ -6,16 +6,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["SpotifyRecent/SpotifyRecent.csproj", "SpotifyRecent/"]
-RUN dotnet restore "SpotifyRecent/SpotifyRecent.csproj"
+COPY ["SpotifyRecentApi/SpotifyRecentApi.csproj", "SpotifyRecentApi/"]
+RUN dotnet restore "SpotifyRecentApi/SpotifyRecentApi.csproj"
 COPY . .
-WORKDIR "/src/SpotifyRecent"
-RUN dotnet build "SpotifyRecent.csproj" -c Release -o /app/build
+WORKDIR "/src/SpotifyRecentApi"
+RUN dotnet build "SpotifyRecentApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SpotifyRecent.csproj" -c Release -o /app/publish
+RUN dotnet publish "SpotifyRecentApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SpotifyRecent.dll"]
+ENTRYPOINT ["dotnet", "SpotifyRecentApi.dll"]
