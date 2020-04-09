@@ -20,7 +20,7 @@ namespace SpotifyRecentApi
         {
         }
 
-        public Config Load(string filename = "config.json")
+        public Config Load(string filename = "files/config.json")
         {
             if (!File.Exists(filename))
             {
@@ -31,9 +31,10 @@ namespace SpotifyRecentApi
             return tmpConfig;
         }
 
-        public void Save()
+        public void Save(string filename = "files/config.json")
         {
-            File.WriteAllText("config.json", JsonConvert.SerializeObject(this, Formatting.Indented));
+            Directory.CreateDirectory("files");
+            File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
 }

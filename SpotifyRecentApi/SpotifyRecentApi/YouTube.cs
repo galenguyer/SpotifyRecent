@@ -12,13 +12,16 @@ namespace SpotifyRecentApi
     public static class YouTube
     {
         private static string youtubeSearchUrl = "https://www.youtube.com/results?search_query=";
-        private static string cacheFile = "ytcache.json";
+        private static string cacheFile = "files/ytcache.json";
 
         public static string GetFirstSongLink(string searchTerm)
         {
             searchTerm = searchTerm.Replace(' ', '+');
             if (!File.Exists(cacheFile))
+            {
+                Directory.CreateDirectory("files");
                 File.WriteAllText(cacheFile, "[]");
+            }
 
             List<CacheYTSong> cachedSongs = JsonConvert.DeserializeObject<List<CacheYTSong>>(File.ReadAllText(cacheFile));
             if (cachedSongs.Any(s => s.Query.Equals(searchTerm)))
