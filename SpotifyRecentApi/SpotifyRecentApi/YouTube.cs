@@ -36,11 +36,18 @@ namespace SpotifyRecentApi
             string firstATag = ABlockRegex.Matches(searchPageHtml).FirstOrDefault().Value;
             Regex hrefParser = new Regex(@"\/watch\?v\=.{11}");
             string link = $"https://www.youtube.com{hrefParser.Match(firstATag).Value}";
+            if (link != null)
+            {
+                cachedSongs.Add(new CacheYTSong { Query = searchTerm, YoutubeLink = link });
+                File.WriteAllText(cacheFile, JsonConvert.SerializeObject(cachedSongs, Formatting.Indented));
 
-            cachedSongs.Add(new CacheYTSong { Query = searchTerm, YoutubeLink = link});
-            File.WriteAllText(cacheFile, JsonConvert.SerializeObject(cachedSongs, Formatting.Indented));
-
-            return link;
+                return link;
+            }
+            else
+            {
+                System.Threading.Thread.Sleep(1000);
+                return GetFirstSongLink(searchTerm);
+            }
         }
     }
 
