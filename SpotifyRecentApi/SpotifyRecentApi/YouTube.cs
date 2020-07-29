@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,11 +17,6 @@ namespace SpotifyRecentApi
 
         public static string GetFirstSongLink(string searchTerm)
         {
-            searchTerm = searchTerm.Replace("&", "%26");
-            searchTerm = searchTerm.Replace("?", "%3F");
-            searchTerm = searchTerm.Replace("+", "%2B");
-            searchTerm = searchTerm.Replace(' ', '+');
-
             if (!File.Exists(cacheFile))
             {
                 Directory.CreateDirectory("files");
@@ -31,27 +27,28 @@ namespace SpotifyRecentApi
             if (cachedSongs.Any(s => s.Query.Equals(searchTerm)))
                 return cachedSongs.First(s => s.Query.Equals(searchTerm)).YoutubeLink;
 
-            string searchLink = youtubeSearchUrl + searchTerm;
+            Console.WriteLine($"[YouTube] Searching for {searchTerm}");
 
-            Console.WriteLine($"[YouTube] Searching for {searchLink}");
-            string searchPageHtml = new WebClient().DownloadString(searchLink);
-
-            Regex ABlockRegex = new Regex("<a.*class=\"yt-uix-tile-link.*\".*dir=\"ltr\">");
-            string firstATag = ABlockRegex.Matches(searchPageHtml).FirstOrDefault().Value;
-            Regex hrefParser = new Regex(@"\/watch\?v\=.{11}");
-            string link = $"https://www.youtube.com{hrefParser.Match(firstATag).Value}";
-            if (link != null)
+            Process proc = new Process
             {
-                cachedSongs.Add(new CacheYTSong { Query = searchTerm, YoutubeLink = link });
-                File.WriteAllText(cacheFile, JsonConvert.SerializeObject(cachedSongs, Formatting.Indented));
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "youtube-dl",
+                    Arguments = $"'ytsearch:{searchTerm.Replace("\'", "\\\'")}' --get-id",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            string searchResult = proc.StandardOutput.ReadToEnd();
+            proc.WaitForExit();
+            string link = $"https://www.youtube.com/watch?v={searchResult}";
 
-                return link;
-            }
-            else
-            {
-                System.Threading.Thread.Sleep(1000);
-                return GetFirstSongLink(searchTerm);
-            }
+            cachedSongs.Add(new CacheYTSong { Query = searchTerm, YoutubeLink = link });
+            File.WriteAllText(cacheFile, JsonConvert.SerializeObject(cachedSongs, Formatting.Indented));
+
+            return link;
         }
     }
 

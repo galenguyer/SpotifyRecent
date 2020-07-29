@@ -18,4 +18,6 @@ RUN dotnet publish "SpotifyRecentApi.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+RUN chmod a+rx /usr/local/bin/youtube-dl
 ENTRYPOINT ["dotnet", "SpotifyRecentApi.dll"]
