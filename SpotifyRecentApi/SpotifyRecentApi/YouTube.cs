@@ -17,6 +17,10 @@ namespace SpotifyRecentApi
         public static string GetFirstSongLink(string searchTerm)
         {
             searchTerm = searchTerm.Replace(' ', '+');
+            searchTerm = searchTerm.Replace("&", "%26");
+            searchTerm = searchTerm.Replace("?", "%3F");
+            searchTerm = searchTerm.Replace("+", "%2B");
+
             if (!File.Exists(cacheFile))
             {
                 Directory.CreateDirectory("files");
