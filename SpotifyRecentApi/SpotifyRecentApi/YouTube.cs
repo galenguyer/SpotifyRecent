@@ -12,7 +12,6 @@ namespace SpotifyRecentApi
 {
     public static class YouTube
     {
-        private static string youtubeSearchUrl = "https://www.youtube.com/results?search_query=";
         private static string cacheFile = "files/ytcache.json";
 
         public static string GetFirstSongLink(string searchTerm)
@@ -34,7 +33,7 @@ namespace SpotifyRecentApi
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "youtube-dl",
-                    Arguments = $"'ytsearch:{searchTerm.Replace("\'", "\\\'")}' --get-id",
+                    Arguments = $"\"ytsearch:{searchTerm.Replace("\"", "\\\"")}\" --get-id",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true

@@ -20,4 +20,6 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
 RUN chmod a+rx /usr/local/bin/youtube-dl
+RUN apt-get update -y && apt-get install python3 -y
+RUN ln -s /usr/bin/python3  /usr/bin/python
 ENTRYPOINT ["dotnet", "SpotifyRecentApi.dll"]
